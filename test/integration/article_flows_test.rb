@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class ArticleFlowsTest < ActionDispatch::IntegrationTest
+  setup do
+    @article = articles(:one)
+  end
+
   test "can see articles" do
     get "/articles"
     assert_select '[data-test="articles-title"]', "Articles"
@@ -21,10 +25,8 @@ class ArticleFlowsTest < ActionDispatch::IntegrationTest
   end
 
   test "can update an article" do
-    @article = articles(:one)
     get "/articles/#{@article.id}/edit"
     assert_response :success
-
     patch "/articles/#{@article.id}",
       params: { article: { title: "can update", body: "article successfully." } }
     assert_response :redirect
@@ -35,16 +37,13 @@ class ArticleFlowsTest < ActionDispatch::IntegrationTest
   end
 
   test "can see an article" do
-    @article = articles(:one)
     get "/articles/#{@article.id}"
     assert_select '[data-test="article-page-title"]', "Title:\n  #{@article.title}"
     assert_select '[data-test="article-page-body"]', "Body:\n  #{@article.body}"
   end
 
   test "can delete an article" do
-    @article = articles(:one)
     delete "/articles/#{@article.id}"
-
     get "/articles"
     assert_select '[data-test="articles-title"]', "Articles"
     assert_select "tr", 2
