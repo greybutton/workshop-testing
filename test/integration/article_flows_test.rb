@@ -2,13 +2,13 @@ require 'test_helper'
 
 class ArticleFlowsTest < ActionDispatch::IntegrationTest
   setup do
-    @article = articles(:one)
+    @article = create(:article, title: "My title", body: "My body")
   end
 
   test "can see articles" do
     get "/articles"
     assert_select '[data-test="articles-title"]', "Articles"
-    assert_select "tr", 3
+    assert_select "tr", 2
   end
 
   test "can create an article" do
@@ -46,6 +46,6 @@ class ArticleFlowsTest < ActionDispatch::IntegrationTest
     delete "/articles/#{@article.id}"
     get "/articles"
     assert_select '[data-test="articles-title"]', "Articles"
-    assert_select "tr", 2
+    assert_select "tr", 1
   end
 end
