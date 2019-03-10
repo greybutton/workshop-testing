@@ -52,6 +52,7 @@ end
 
 group :test do
   gem 'factory_bot_rails'
+  gem 'minitest-power_assert'
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
